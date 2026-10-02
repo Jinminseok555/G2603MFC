@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CG2603MFCView, CView)
 	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
+	ON_WM_LBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CG2603MFCView 생성/소멸
@@ -51,14 +52,19 @@ BOOL CG2603MFCView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CG2603MFCView 그리기
 
-void CG2603MFCView::OnDraw(CDC* /*pDC*/)
+void CG2603MFCView::OnDraw(CDC* pDC)
 {
 	CG2603MFCDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	// 문서에 저장된 좌표가 초기값이 아닐 경우에만 원(타원)을 그림
+	CPoint pt = pDoc->GetPoint();
+	if (pt.x != -100 && pt.y != -100)
+	{
+		pDC->Ellipse(pt.x - 30, pt.y - 30, pt.x + 30, pt.y + 30);
+	}
 }
 
 
@@ -103,3 +109,14 @@ CG2603MFCDoc* CG2603MFCView::GetDocument() const // 디버그되지 않은 버�
 
 
 // CG2603MFCView 메시지 처리기
+
+void CG2603MFCView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	//CClientDC dc(this);
+	//dc.Ellipse(point.x - 30, point.y - 30, point.x + 30, point.y + 30);
+
+	GetDocument()->SetPoint(point);
+	Invalidate();
+
+	CView::OnLButtonDown(nFlags, point);
+}

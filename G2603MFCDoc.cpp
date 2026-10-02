@@ -45,6 +45,7 @@ BOOL CG2603MFCDoc::OnNewDocument()
 
 	// TODO: 여기에 재초기화 코드를 추가합니다.
 	// SDI 문서는 이 문서를 다시 사용합니다.
+	Point = CPoint(-100, -100);
 
 	return TRUE;
 }
@@ -59,10 +60,12 @@ void CG2603MFCDoc::Serialize(CArchive& ar)
 	if (ar.IsStoring())
 	{
 		// TODO: 여기에 저장 코드를 추가합니다.
+		ar << Point;
 	}
 	else
 	{
 		// TODO: 여기에 로딩 코드를 추가합니다.
+		ar >> Point;
 	}
 }
 

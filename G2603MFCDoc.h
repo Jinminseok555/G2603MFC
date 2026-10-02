@@ -8,6 +8,12 @@
 
 class CG2603MFCDoc : public CDocument
 {
+protected:
+	CPoint Point = CPoint(-100, -100);
+public:
+	CPoint GetPoint() { return Point; }
+	void SetPoint(CPoint p) { Point = p; }
+
 protected: // serialization에서만 만들어집니다.
 	CG2603MFCDoc() noexcept;
 	DECLARE_DYNCREATE(CG2603MFCDoc)
